@@ -1,0 +1,4 @@
+\.idea/
+resources/compiled/*.php
+logs/*.log
+config\.ini
