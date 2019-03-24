@@ -239,7 +239,8 @@ abstract class Model implements \Countable
         $statement = $this->db->prepare($sql);
         $statement->execute($this->data);
         if (!$this->fetched) {
-            $this->id = $this->db->lastInsertId();
+            $theKey = $this->primaryKey;
+            $this->$theKey = $this->db->lastInsertId();
             $this->refresh();
         }
     }
