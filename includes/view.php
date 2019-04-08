@@ -35,7 +35,6 @@ class View
      */
     public function outputSanitize($text)
     {
-        $text = strip_tags($text);
         $text = urldecode($text);
         $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 
@@ -50,6 +49,7 @@ class View
 
         $text = str_replace("\0", "", $text);
         $text = preg_replace('/((java|vb|live)script|mocha|feed|data|ftp|news|nntp|telnet|gopher|ws|wss|xmpp):(\w)*/iUu', '', $text);
+        $text = strip_tags($text);
         return $text;
     }
 
