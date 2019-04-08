@@ -3,7 +3,7 @@
 use Framework\Router;
 
 /** Get the error handling up and supress errors to the front */
-include('../includes/errorhandling.php');
+require('../includes/errorhandling.php');
 ini_set('display_errors', 0);
 set_error_handler("errorHandler", E_ALL);
 register_shutdown_function(function () {
@@ -15,17 +15,17 @@ register_shutdown_function(function () {
 });
 
 /** Includes for framework files - Classes */
-include('../includes/router.php');
-include('../includes/request.php');
-include('../includes/model.php');
-include('../includes/view.php');
-include('../db/dbconnect.php');
+require('../includes/router.php');
+require('../includes/request.php');
+require('../includes/model.php');
+require('../includes/view.php');
+require('../db/dbconnect.php');
 
 /** Register Autoloader for APP namespace */
 spl_autoload_register(function ($class) {
     $theInclude = dirname(dirname(__FILE__))."/".str_replace('\\', '/', $class).'.php';
     if (substr($class, 0, 3) === "App") {
-        @include($theInclude);
+        require($theInclude);
     }
 });
 

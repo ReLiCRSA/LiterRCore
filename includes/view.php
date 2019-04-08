@@ -36,7 +36,20 @@ class View
     public function outputSanitize($text)
     {
         $text = strip_tags($text);
+        $text = urldecode($text);
+        $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
+        $text = preg_replace_callback('/(&#|\\\)[x]([0-9a-f]+);?/iu', function ($m) {
+            return chr(hexdec($m[2]));
+        }, $text);
+        $text = mb_convert_encoding($text, 'UTF-8');
+
+        if ($text != $text) {
+            $text = $this->outputSanitize($text);
+        }
+
         $text = str_replace("\0", "", $text);
+        $text = preg_replace('/((java|vb|live)script|mocha|feed|data|ftp|news|nntp|telnet|gopher|ws|wss|xmpp):(\w)*/iUu', '', $text);
         return $text;
     }
 
@@ -92,7 +105,7 @@ class View
     public function redirect($endpoint)
     {
         header('Location: '.$endpoint);
-        return;
+        die();
     }
 
     /**
